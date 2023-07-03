@@ -1,8 +1,16 @@
 <div class="screen"></div>
+<div class="background"></div>
+
 <div class="display">
-    <div *ngFor="let code of codigo; let i = index" class="codigo" (click)="codigoSelected(code,i)" [class.selecionado]="code == codigoSelecionado">
+    <div *ngFor="let code of codigo; let i = index" class="codigo" (click)="codigoSelected(code,i)" [class.selecionado]="code == codigoSelecionado" [class.erro]="code.detected">
         <pre>{{code.function}}</pre>
     </div>
+</div>
+<div class="feedback" [class.hide]="!showFeedback">
+    <p>{{feedbackMessage}}</p>
+    <button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="retry()">
+        <mat-icon>refresh</mat-icon>
+      </button>
 </div>
 
 <div class="letter">
