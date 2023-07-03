@@ -1,10 +1,16 @@
+<div class="screen"></div>
 <div class="display">
-    <div *ngFor="let code of codigo" class="codigo" (click)="codigoSelected(code)" [class.selecionado]="code == codigoSelecionado">
+    <div *ngFor="let code of codigo; let i = index" class="codigo" (click)="codigoSelected(code,i)" [class.selecionado]="code == codigoSelecionado">
         <pre>{{code.function}}</pre>
     </div>
 </div>
-<div class="regras">
+
+<div class="letter">
     <div *ngFor="let regra of regras" class="regra" (click)="regraSelected(regra)" [class.selecionado]="regra == regraSelecionada">
         <p>{{regra.regra}}</p>
     </div>
+</div>
+<div class="button-bar">
+    <button mat-raised-button color="primary" (click)="approved()">approve</button>
+    <button mat-raised-button color="warn" (click)="declined()">decline</button>
 </div>
